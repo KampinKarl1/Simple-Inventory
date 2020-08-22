@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using SimpleInventory.Crafting;
 
 namespace SimpleInventory
 {
@@ -18,8 +17,6 @@ namespace SimpleInventory
         public delegate void OnInventoryChange();
         public OnInventoryChange onInventoryChange;
 
-        public delegate void OnCraftItem();
-        public OnCraftItem onCraftItem;
 
         void Start()
         {
@@ -52,72 +49,6 @@ namespace SimpleInventory
             }
 
             onInventoryChange?.Invoke();
-        }
-
-        private bool CanCraftItem(Craftable item) 
-        {
-            for (int i = 0; i < item.NumberOfIngredients; i++)
-            {
-                Item key = item.GetIngredientAt(i);
-                if (!inventory.ContainsKey(key) || inventory[key] < item.GetNumberNeededAt(i))
-                    return false;
-            }
-            return true;
-        }
-
-        public int NumberCraftable(Craftable item) 
-        {
-            //Find the max number craftable given a desired item
-
-            int lowest = int.MaxValue;
-
-            for (int i = 0; i < item.NumberOfIngredients; ++i) 
-            {
-                Item id = item.GetIngredientAt(i);
-                int numNeeded = item.GetNumberNeededAt(i);
-
-                if (inventory.ContainsKey(id) && inventory[id] >= numNeeded) 
-                {
-                    int numCraftable = inventory[id] / numNeeded;
-
-                    if (numCraftable < lowest)
-                        lowest = numCraftable;
-                }
-                else //It's not craftable since we dont have it or theres not enough
-                    return 0;
-            }
-
-            return lowest;
-        }
-
-        private Item CraftItem(Craftable item) 
-        {
-            for (int i = 0; i < item.NumberOfIngredients; i++)
-                RemoveFromInventory(item.GetIngredientAt(i), item.GetNumberNeededAt(i));
-
-            return item;
-        }
-
-        public bool TryCraftItem(Craftable item) 
-        {
-            if (!CanCraftItem(item))
-            {
-                Debug.LogWarning("Not enough materials to create that");
-                return false;
-            }
-
-            Item crafted = CraftItem(item);
-
-            if (crafted)
-            {
-                //ADD THE ITEM
-                AddToInventory(crafted);
-
-                onInventoryChange?.Invoke();
-                onCraftItem?.Invoke();
-                return true;
-            }
-            return false;
-        }
+        }     
     }
 }
