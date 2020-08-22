@@ -25,6 +25,9 @@ namespace SimpleInventory
 
         private void AddToInventoryAndDestroyThis() 
         {
+        //Get a reference to an inventory and add the item
+        
+        //You could pass the gameObject collided with and do a GetComponent for the Inventory
             FindObjectOfType<Inventory>().AddToInventory(itemThatGetsPickedUp, numberPickedUp);
             Destroy(gameObject);
         }
