@@ -15,9 +15,7 @@ namespace SimpleInventory
 
         public void DoItemStuff() 
         {
-            string player = GameObject.FindGameObjectWithTag("Player").name;
-
-            Debug.Log($"{player} just got a sweet buff or whatever");
+            //Make the item do stuff here
         }
     }
 }
