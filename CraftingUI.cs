@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using TMPro;
 using SimpleInventory.Crafting;
 
 namespace SimpleInventory.UI
@@ -19,32 +18,6 @@ namespace SimpleInventory.UI
 
             crafter.onCraftablesChange += UpdateItemSlots;
         }
-
-        /*protected override void UpdateItemSlots() 
-        {
-            UnityAction craftAction;
-
-            int index = 0;
-
-            foreach (KeyValuePair<Craftable, int> kvp in crafter.CraftingInventory)
-            {
-                Craftable item = kvp.Key;
-                int count = kvp.Value;
-
-                craftAction = new UnityAction(delegate
-                {
-                   crafter.TryCraftItem(item);
-                });
-
-                itemSlots[index].gameObject.SetActive(true);
-                itemSlots[index].UpdateSlotUI(item, count, craftAction);
-
-                index++;
-            }
-
-            for (int i = index; i < itemSlots.Length; i++)
-                itemSlots[i].gameObject.SetActive(false);
-        }*/
 
         protected override void UpdateSlotAt(int _index, Craftable i, int count)
         {
