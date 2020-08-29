@@ -11,17 +11,18 @@ namespace SimpleInventory
 
         private Dictionary<Item, int> inventory = new Dictionary<Item, int>();
 
+        private const int MAX_ITEMS = 32; //This doesn't actually limit the number of items the inventory can carry - it's used as an example
+
         public Dictionary<Item, int> GetInventory => inventory;
         public int NumberItemsInInventory => inventory.Count;
 
         public delegate void OnInventoryChange();
         public OnInventoryChange onInventoryChange;
 
-
         void Start()
         {
             //--------Init UI--------
-            inventoryUI.InitializeUI(this);
+            inventoryUI.InitializeUI(this, inventory, MAX_ITEMS);
         }
 
         public void AddToInventory(Item item, int count = 1) 
@@ -49,6 +50,10 @@ namespace SimpleInventory
             }
 
             onInventoryChange?.Invoke();
-        }     
+        }
+
+        public bool HasNumberOfItem(Item item, int numNeeded) => inventory.ContainsKey(item) && inventory[item] >= numNeeded;
+
+        public int NumberHeldOf(Item i) => inventory[i];
     }
 }

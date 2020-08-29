@@ -1,70 +1,74 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace SimpleInventory.UI
 {
-    public class InventoryUI : MonoBehaviour
+    public class InventoryUI : SlotHolderUI <Item>
     {
         private Inventory inventory = null;
-
-        [SerializeField] int numSlotsToCreate = 15;
-
-        [SerializeField] ItemSlotUI [] itemSlots = null;
-        [SerializeField] GameObject slotUIPrefab = null;
-
-        [SerializeField] private GameObject inventoryUIobj = null;
-        [SerializeField] private Transform contentParent = null;
-
-        public void InitializeUI(Inventory inventory)
+        public override void InitializeUI(object inventoryHolder, Dictionary<Item,int> inventory, int numSlots)
         {
-            this.inventory = inventory;
+            this.inventory = inventoryHolder as Inventory;
 
-            CreateItemSlots();
+            base.InitializeUI(inventoryHolder, inventory, numSlots);
 
-            UpdateItemSlots();
-
-            inventory.onInventoryChange += UpdateItemSlots;
+            this.inventory.onInventoryChange += UpdateItemSlots;
         }
 
-        private void CreateItemSlots() 
-        {
-            itemSlots = new ItemSlotUI[numSlotsToCreate];
 
-            for (int i = 0; i < numSlotsToCreate; ++i)
+        protected override void UpdateSlotAt(int _index, Item item, int count)
+        {
+            if (count == 0)
             {
-                GameObject obj = Instantiate(slotUIPrefab);
-                obj.transform.SetParent(contentParent);
-
-                itemSlots[i] = obj.GetComponent<ItemSlotUI>();
-                itemSlots[i].Initialize();
+                itemSlots[_index].gameObject.SetActive(false);
+                return;
             }
+
+            UnityAction buttonAction = new UnityAction(delegate
+            {
+                inventory.RemoveFromInventory(item, 1);
+                item.DoItemStuff();
+            });
+
+            itemSlots[_index].gameObject.SetActive(true);
+            itemSlots[_index].UpdateSlotUI(item, count, buttonAction);
         }
 
-        private void UpdateItemSlots() 
+        /*protected override void UpdateItemSlots()
         {
-            int i = 0;
+            UnityAction buttonAction;
 
+            int index = 0;
+            //Iterate on each slot
             foreach (KeyValuePair<Item, int> kvp in inventory.GetInventory)
             {
-                if (kvp.Value == 0)
-                    itemSlots[i].gameObject.SetActive(false);
-                else
+                Item item = kvp.Key;
+                int count = kvp.Value;
+
+                if (count == 0)
                 {
-                    itemSlots[i].gameObject.SetActive(true);
-                    itemSlots[i].UpdateSlotUI(this, kvp.Key, kvp.Value);
+                    itemSlots[index].gameObject.SetActive(false);
+                    continue;
                 }
-                i++;
+
+
+                buttonAction = new UnityAction(delegate
+               {
+                   inventory.RemoveFromInventory(item, 1);
+                   item.DoItemStuff(); 
+               });
+
+                itemSlots[index].UpdateSlotUI(item, count, buttonAction);
+                itemSlots[index].gameObject.SetActive(true);
+
+                index++;
             }
 
-            for (int j = i; j < itemSlots.Length; j++)
-                itemSlots[j].gameObject.SetActive(false);            
-        }
+            for (int i = index; i < itemSlots.Length; i++)            
+                itemSlots[i].gameObject.SetActive(false);           
+        }*/
 
-        public void ItemClicked(Item item) 
-        {
-            inventory.RemoveFromInventory(item, 1);
-        }
 
-        public void ChangeInventoryState() => inventoryUIobj.SetActive(!inventoryUIobj.activeSelf);
     }
 }
