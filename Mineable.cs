@@ -17,7 +17,7 @@ public class Mineable : MonoBehaviour
     [SerializeField] private float miningTime = 1.0f;
     private float countdown = 0f;
 
-    public SimpleInventory.Item Resource => resource;
+    public Sprite Icon => resource.Icon; //Give away the least info possible
     public float MiningProgress => countdown / miningTime;
 
     public delegate void OnEmpty();
