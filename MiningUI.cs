@@ -36,7 +36,7 @@ public class MiningUI : MonoBehaviour
     { 
         mine = m;
 
-        resourceImage.sprite = m.Resource.Icon;
+        resourceImage.sprite = m.Icon;
 
         worldCanvas.SetActive(true);
         worldCanvas.transform.position = m.transform.position;
