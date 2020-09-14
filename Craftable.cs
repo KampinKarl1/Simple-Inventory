@@ -16,8 +16,6 @@ namespace SimpleInventory.Crafting
 
         [SerializeField] private CraftingIngredient[] ingredients = null;
 
-        public CraftingIngredient [] Ingredients => ingredients;
-
         public int NumberOfIngredients => ingredients.Length;
         public Item GetIngredientAt(int index) => ingredients[index].ingredient;
         public int GetNumberNeededAt(int index) => ingredients[index].numberNeeded;
