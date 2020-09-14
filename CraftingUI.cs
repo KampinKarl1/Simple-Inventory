@@ -8,13 +8,19 @@ namespace SimpleInventory.UI
 {
     public class CraftingUI : SlotHolderUI <Craftable>
     {
-        private CraftyCrafter crafter = null;
+          [SerializeField] private CraftyCrafter crafter = null;
 
-        public override void InitializeUI(object inventoryHolder, Dictionary<Craftable, int> inventory, int numSlots)
+        private void Start()
         {
-            crafter = inventoryHolder as CraftyCrafter;
+            if (crafter)
+                InitializeUI(crafter.CraftingInventory, crafter.GetMaxRecipeSlots);
+        }
 
-            base.InitializeUI(inventoryHolder, inventory, numSlots);
+        protected override void InitializeUI(Dictionary<Craftable, int> inventory, int numSlots)
+        {
+            base.InitializeUI(inventory, numSlots);
+
+            UpdateItemSlots();
 
             crafter.onCraftablesChange += UpdateItemSlots;
         }
