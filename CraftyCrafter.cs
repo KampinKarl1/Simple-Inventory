@@ -6,10 +6,9 @@ namespace SimpleInventory.Crafting
 {
     public class CraftyCrafter : MonoBehaviour
     {
-        [SerializeField] private UI.CraftingUI craftUI = null;
         [SerializeField] private Inventory inventory = null;
 
-        private const int MAX_RECIPES = 12;
+        private int maxRecipeSlots = 12;
 
         [SerializeField, Tooltip("The technologies/recipes/craftables that this class currently knows"), Header("Technologies Known")]
         private List<Craftable> craftables = new List<Craftable>();
@@ -17,16 +16,15 @@ namespace SimpleInventory.Crafting
         private Dictionary<Craftable, int> craftingInventory = new Dictionary<Craftable, int>();
         public Dictionary<Craftable, int> CraftingInventory => craftingInventory;
 
+        public int GetMaxRecipeSlots => maxRecipeSlots;
+
         public delegate void OnCraftablesChange();
         public OnCraftablesChange onCraftablesChange;
-
 
         private void Start()
         {
             foreach (Craftable c in craftables)
                 AddToCraftables(c);
-
-            craftUI.InitializeUI(this,craftingInventory ,MAX_RECIPES);
 
             inventory.onInventoryChange += FindNumCraftableForAllRecipes;
         }
