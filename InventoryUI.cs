@@ -6,12 +6,17 @@ namespace SimpleInventory.UI
 {
     public class InventoryUI : SlotHolderUI <Item>
     {
-        private Inventory inventory = null;
-        public override void InitializeUI(object inventoryHolder, Dictionary<Item,int> inventory, int numSlots)
-        {
-            this.inventory = inventoryHolder as Inventory;
+        [SerializeField] private Inventory inventory = null;
 
-            base.InitializeUI(inventoryHolder, inventory, numSlots);
+        private void Start()
+        {
+            if (inventory)
+                InitializeUI(inventory.GetInventory, inventory.GetMaxItemSlots);
+        }
+
+        protected override void InitializeUI(Dictionary<Item,int> inventory, int numSlots)
+        {
+            base.InitializeUI(inventory, numSlots);
 
             this.inventory.onInventoryChange += UpdateItemSlots;
         }
