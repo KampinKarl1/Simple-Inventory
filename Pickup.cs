@@ -6,7 +6,7 @@ namespace SimpleInventory
     public class Pickup : MonoBehaviour
     {
         [SerializeField] private Image overheadImage = null;
-        [SerializeField] private Item itemThatGetsPickedUp = null;
+        [SerializeField] private Item itemPickup = null;
         [SerializeField] private int numberPickedUp = 1;
 
         [SerializeField] string playerTag = "Player";
@@ -20,15 +20,12 @@ namespace SimpleInventory
         private void OnCollisionEnter(Collision collision)
         {
             if (collision.collider.CompareTag(playerTag))
-                AddToInventoryAndDestroyThis();
+                AddToInventoryAndDestroyThis(collision.gameObject);
         }
 
         private void AddToInventoryAndDestroyThis() 
         {
-        //Get a reference to an inventory and add the item
-        
-        //You could pass the gameObject collided with and do a GetComponent for the Inventory
-            FindObjectOfType<Inventory>().AddToInventory(itemThatGetsPickedUp, numberPickedUp);
+            playerObject.GetComponent<Inventory>().AddToInventory(itemPickup, numberPickedUp);
             Destroy(gameObject);
         }
     } 
