@@ -13,13 +13,11 @@ namespace SimpleInventory.UI
         [SerializeField] private GameObject holderObject = null;
         [SerializeField] private Transform contentParent = null;
 
-        public virtual void InitializeUI (object inventoryHolder, Dictionary<T,int> inventory, int numSlots)
+         protected virtual void InitializeUI (Dictionary<T,int> inventory, int numSlots)
         {
             inventoryOfType = inventory;
 
             CreateItemSlots(numSlots);
-
-            UpdateItemSlots();
         }
 
         private void CreateItemSlots(int numSlotsToCreate)
