@@ -1,5 +1,7 @@
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace SimpleInventory.UI
 {
@@ -13,7 +15,7 @@ namespace SimpleInventory.UI
         [SerializeField] private GameObject holderObject = null;
         [SerializeField] private Transform contentParent = null;
 
-         protected virtual void InitializeUI (Dictionary<T,int> inventory, int numSlots)
+        protected virtual void InitializeUI (Dictionary<T,int> inventory, int numSlots)
         {
             inventoryOfType = inventory;
 
@@ -22,6 +24,9 @@ namespace SimpleInventory.UI
 
         private void CreateItemSlots(int numSlotsToCreate)
         {
+            if (itemSlots != null && itemSlots.Length >= numSlotsToCreate)
+                return; 
+
             itemSlots = new ItemSlotUI[numSlotsToCreate];
 
             for (int i = 0; i < numSlotsToCreate; ++i)
@@ -29,6 +34,8 @@ namespace SimpleInventory.UI
                 GameObject obj = Instantiate(slotUIPrefab, contentParent);
 
                 itemSlots[i] = obj.GetComponent<ItemSlotUI>();
+
+                obj.SetActive(false);
             }
         }
 
