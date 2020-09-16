@@ -40,7 +40,7 @@ namespace SimpleInventory
                 inventory[item] -= count;
             else 
             {
-                Debug.LogWarning($"Inventory contains less that {count} of {item.name}. Setting count to zero");
+                Debug.LogWarning($"Inventory contains less than {count} of {item.name}. Setting count to zero");
                 inventory[item] = 0;
             }
 
