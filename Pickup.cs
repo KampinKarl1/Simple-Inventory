@@ -13,8 +13,8 @@ namespace SimpleInventory
 
         private void Start()
         {
-            if (itemThatGetsPickedUp != null)
-                overheadImage.sprite = itemThatGetsPickedUp.Icon;
+            if (itemPickup != null)
+                overheadImage.sprite = itemPickup.Icon;
         }
      
         private void OnCollisionEnter(Collision collision)
@@ -23,7 +23,7 @@ namespace SimpleInventory
                 AddToInventoryAndDestroyThis(collision.gameObject);
         }
 
-        private void AddToInventoryAndDestroyThis() 
+        private void AddToInventoryAndDestroyThis(GameObject playerObject) 
         {
             playerObject.GetComponent<Inventory>().AddToInventory(itemPickup, numberPickedUp);
             Destroy(gameObject);
