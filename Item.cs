@@ -3,7 +3,7 @@ using UnityEngine;
 namespace SimpleInventory
 {
     [CreateAssetMenu]
-    public class Item : ScriptableObject
+    public class Item : ScriptableObject, IExchangeable<int>
     {
         [SerializeField] private string itemName = "Write a name";
         [SerializeField, Multiline] private string description = "does stuff";
@@ -17,6 +17,12 @@ namespace SimpleInventory
         public void DoItemStuff() 
         {
             //Make the item do stuff here
+        }
+        
+        //Implementation of IExchangeable
+        public int GetPrice() 
+        {
+            return value;
         }
     }
 }
