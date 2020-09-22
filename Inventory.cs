@@ -8,7 +8,7 @@ namespace SimpleInventory
     {
         private Dictionary<Item, int> inventory = new Dictionary<Item, int>();
 
-        [SerializedField] private int maxItemSlots = 32;
+        [SerializeField] private int maxItemSlots = 32;
 
         public Dictionary<Item, int> GetInventory => inventory;
         
