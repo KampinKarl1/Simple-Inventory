@@ -1,4 +1,6 @@
 # Simple-Inventory (with simple Factorio-Like crafting and mining)
+Check out the tutorials for this project here: https://www.youtube.com/playlist?list=PL8uuriBnyf5ngvXpWUo8h_Fw-vjhDQq3s
+
 Use this simple inventory, crafting, mining, and pickup system for prototyping your game.
 
 Place all the scripts in your Project/Assets folder. (You could also create the scripts in your project and copy the code from here.)
