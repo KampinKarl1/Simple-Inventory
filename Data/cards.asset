@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e93136363839eb94fa37e996041d1eb1, type: 3}
+  m_Name: cards
+  m_EditorClassIdentifier: 
+  itemName: Deck of Cards
+  description: You can play with them or like build a house with them or whatever...
+    Idc
+  icon: {fileID: 21300000, guid: 9deb5962094f551459679be51bf5e042, type: 3}
