@@ -24,6 +24,8 @@ public class InputManager : MonoBehaviour
 
     void Update()
     {
+        CheckIfMouseOverObject();
+    
         if (Input.GetKeyDown(moveKey) && playerController && !EventSystem.current.IsPointerOverGameObject())
             playerController.GiveMoveOrder();
 
@@ -33,7 +35,34 @@ public class InputManager : MonoBehaviour
             craftingUI.ChangeInventoryState();
         }
 
+         #region Mining
+        if (objectMouseIsOver == null)
+            return;
+
         if (Input.GetKey(miningKey))
-            miner.MineCurrent();
+            miner.MineCurrent(objectMouseIsOver);
+        if (Input.GetKeyUp(miningKey))
+            miner.ExitMine();
+        #endregion
     }
+    
+        #region MouseOverInformation
+    int currentLayer = -1; //The layer the mouse is currently over;
+    Ray ray = new Ray(); //memalloc for a ray thatll be fired every frame
+    RaycastHit hit = new RaycastHit(); //memalloc
+    GameObject objectMouseIsOver = null; //memalloc
+
+    private void CheckIfMouseOverObject() 
+    {
+        ray = mainCam.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out hit, 100f))
+        {
+            objectMouseIsOver = hit.collider.gameObject;
+            currentLayer = objectMouseIsOver.layer;
+        }
+        else
+            objectMouseIsOver = null;
+    }
+    #endregion
 }
