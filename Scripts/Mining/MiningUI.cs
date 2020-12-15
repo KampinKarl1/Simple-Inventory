@@ -2,87 +2,83 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using SimpleInventory;
 
-public class MiningUI : MonoBehaviour
+namespace SimpleInventory
 {
-    [SerializeField] Miner miner = null;
-    private Mineable mine = null;
-
-    [SerializeField] private Image resourceImage = null;
-    [SerializeField] private Image backgroundImage = null;
-    [SerializeField] private Image fillbarImage = null;
-
-    [Header("World Canvas")]
-    [SerializeField] private GameObject worldCanvas = null;
-
-    private void Start()
+    public class MiningUI : MonoBehaviour
     {
-        if (miner)
-            InitializeUI();
-        else
-            StartCoroutine(FindMiner());
-    }
+        [SerializeField] Miner miner = null;
 
-    IEnumerator FindMiner() 
-    {
-        float maxWaitTime = 5.0f;
-        float countdown = maxWaitTime;
+        [SerializeField] private Image resourceImage = null;
+        [SerializeField] private Image backgroundImage = null;
+        [SerializeField] private Image fillbarImage = null;
 
-        while (miner == null && countdown > 0)
+        [Header("World Canvas")]
+        [SerializeField] private GameObject worldCanvas = null;
+
+        #region Initialization
+        private void Start()
         {
-            yield return new WaitForSeconds(.1f);
-            miner = FindObjectOfType<Miner>();
-            countdown -= .1f;
+            if (miner == null)
+                StartCoroutine(FindMiner());
+
+            InitializeUI();
         }
 
-        if (miner)
-            InitializeUI();
-    }
+        IEnumerator FindMiner()
+        {
+            float maxWaitTime = 5.0f;
+            float countdown = maxWaitTime;
 
-    public void InitializeUI()
-    {
-        resourceImage.gameObject.SetActive(false);
-        backgroundImage.gameObject.SetActive(false);
+            while (miner == null && countdown > 0)
+            {
+                yield return new WaitForSeconds(.1f);
+                miner = FindObjectOfType<Miner>();
+                countdown -= .1f;
+            }
 
-        miner.onEnterMine += SetMine;
-        miner.onExitMine += ExitMine;
-    }
+            if (miner)
+                InitializeUI();
+        }
 
-    private void Update()
-    {
-        if (!mine)
-            return;
+        public void InitializeUI()
+        {
+            resourceImage.gameObject.SetActive(false);
+            backgroundImage.gameObject.SetActive(false);
 
-        UpdateUI(mine.MiningProgress);
-    }
+            miner.onEnterMine += EnterMine;
+            miner.onExitMine += ExitMine;
+            miner.onMiningProgressChange += UpdateUI;
+        }
+        #endregion
 
-    private void SetMine(Mineable m) 
-    { 
-        mine = m;
+        #region Event Based Methods
+        private void EnterMine(Mineable m)
+        {
+            worldCanvas.SetActive(true);
+            worldCanvas.transform.position = m.transform.position;
+            worldCanvas.transform.LookAt(Camera.main.transform);
 
-        resourceImage.sprite = m.Resource.Icon;
+            resourceImage.sprite = m.Resource.Icon;
+        }
 
-        worldCanvas.SetActive(true);
-        worldCanvas.transform.position = m.transform.position;
-        worldCanvas.transform.LookAt(Camera.main.transform);
-    }
+        private void UpdateUI(float mineProgress)
+        {
+            print($"Progress is {mineProgress}");
 
-    private void UpdateUI(float mineProgress) 
-    {
-        resourceImage.gameObject.SetActive(mineProgress > 0);
-        backgroundImage.gameObject.SetActive(mineProgress > 0);
+            resourceImage.gameObject.SetActive(mineProgress > 0);
+            backgroundImage.gameObject.SetActive(mineProgress > 0);
 
-        fillbarImage.fillAmount = mineProgress;
-    }
+            fillbarImage.fillAmount = mineProgress;
+        }
 
-    private void ExitMine() 
-    {
-        mine = null;
+        private void ExitMine()
+        {
+            resourceImage.gameObject.SetActive(false);
+            backgroundImage.gameObject.SetActive(false);
 
-        resourceImage.gameObject.SetActive(false);
-        backgroundImage.gameObject.SetActive(false);
-
-        worldCanvas.SetActive(false);
+            worldCanvas.SetActive(false);
+        }
+        #endregion
     }
 }
