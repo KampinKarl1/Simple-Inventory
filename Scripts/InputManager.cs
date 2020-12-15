@@ -9,7 +9,7 @@ public class InputManager : MonoBehaviour
     [SerializeField] private SimpleInventory.UI.InventoryUI inventoryUI = null;
     [SerializeField] private SimpleInventory.UI.CraftingUI craftingUI = null;
     [SerializeField] private PlayerMover playerController = null;
-    [SerializeField] private Miner miner = null;
+    [SerializeField] private SimpleInventory.Miner miner = null;
 
     [Header("Inputs interpretted")]
     [SerializeField] KeyCode inventoryKey = KeyCode.Tab;
