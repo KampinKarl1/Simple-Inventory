@@ -9,62 +9,45 @@ namespace SimpleInventory
         #region Variables
         [SerializeField] private Item resource = null;
 
-        private bool beingMined = false;
-
         [SerializeField] private int minResources = 1;
         [SerializeField] private int maxResources = 5;
         private int resourcesRemaining = 0;
 
         [SerializeField, Tooltip("Time it takes to mine one resource from this object.")]
         private float miningTime = 1.0f;
-        private float countdown = 0f;
         #endregion
 
-        #region Properties and Events
+        #region Properties
         public Item Resource => resource;
-        public float MiningProgress => countdown / miningTime;
+        public bool HasResources => resourcesRemaining > 0;
+        /// <summary>
+        /// Time it takes to mine this resource.
+        /// </summary>
+        public float MiningTime => miningTime;
+        #endregion
 
         public delegate void OnEmpty();
         public OnEmpty onEmpty;
-        #endregion
-
-        #region Start and Update
+        
+        #region Methods
         private void Start()
         {
             resourcesRemaining = Random.Range(minResources, maxResources);
         }
-
-        private void Update()
-        {
-            if (!beingMined && countdown > 0)
-                countdown -= Time.deltaTime;
-
-            beingMined = false;
-        }
-        #endregion
-
-        public void MineResource(Miner miner)
+        
+        public void MineResource()
         {
             if (resource == null || resourcesRemaining == 0)
                 return;
 
-            beingMined = true;
+            resourcesRemaining--;
 
-            countdown += Time.deltaTime * miner.MiningSpeed;
-
-            if (countdown >= miningTime)
-            {
-                countdown = 0;
-
-                miner.ReceiveResource(resource);
-                resourcesRemaining--;
-            }
-
-            if (resourcesRemaining == 0)
+            if (resourcesRemaining == 0) 
             {
                 gameObject.SetActive(false);
                 onEmpty?.Invoke();
             }
         }
+        #endregion
     }
 }
