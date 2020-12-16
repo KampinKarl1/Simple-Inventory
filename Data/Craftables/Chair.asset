@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 899c6e3628ebf0a46baeee37b5214ae9, type: 3}
+  m_Name: Chair
+  m_EditorClassIdentifier: 
+  itemName: Chair
+  description: Holds your ass.
+  icon: {fileID: 21300000, guid: c2b9ada4e88178c48a0d12c44f25e5d3, type: 3}
+  value: 50
+  ingredients:
+  - ingredient: {fileID: 11400000, guid: 8938503fc24ae5f4eaf199f03aca866f, type: 2}
+    numberNeeded: 2
