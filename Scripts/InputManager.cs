@@ -5,6 +5,8 @@ using UnityEngine.EventSystems;
 
 public class InputManager : MonoBehaviour
 {
+    private Camera mainCam = null;
+
     [Header("Gives input to these classes")]
     [SerializeField] private SimpleInventory.UI.InventoryUI inventoryUI = null;
     [SerializeField] private SimpleInventory.UI.CraftingUI craftingUI = null;
@@ -18,6 +20,8 @@ public class InputManager : MonoBehaviour
 
     private void Start()
     {
+        mainCam = Camera.main;
+    
         if (inventoryUI == null || craftingUI == null)
             throw new System.Exception("Place the inventory and crafting UI scripts on the input manager");
     }
