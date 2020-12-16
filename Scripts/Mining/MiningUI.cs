@@ -64,8 +64,6 @@ namespace SimpleInventory
 
         private void UpdateUI(float mineProgress)
         {
-            print($"Progress is {mineProgress}");
-
             resourceImage.gameObject.SetActive(mineProgress > 0);
             backgroundImage.gameObject.SetActive(mineProgress > 0);
 
