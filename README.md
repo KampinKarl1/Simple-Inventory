@@ -4,6 +4,7 @@ Check out the tutorials for this project here: https://www.youtube.com/playlist?
 Use this simple inventory, crafting, mining, and pickup system for prototyping your game.
 
 ----------Assets and Project Settings------------
+
 I mixed up the folders on this repo and folders that should be in Assets are spread out in this repository with Project Settings mixed
 in with everything else. My bad. 
 
