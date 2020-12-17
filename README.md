@@ -3,7 +3,12 @@ Check out the tutorials for this project here: https://www.youtube.com/playlist?
 
 Use this simple inventory, crafting, mining, and pickup system for prototyping your game.
 
-Place all the scripts in your Project/Assets folder. (You could also create the scripts in your project and copy the code from here.)
+----------Assets and Project Settings------------
+I mixed up the folders on this repo and folders that should be in Assets are spread out in this repository with Project Settings mixed
+in with everything else. My bad. 
+
+PLEASE place the Project Settings folder (or at least the TagManager) in your Unity Project's Project Settings folder and everything
+else in the Assets folder.
 
 -------------Items--------------
 
