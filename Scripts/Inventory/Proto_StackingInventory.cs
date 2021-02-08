@@ -1,7 +1,6 @@
-﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Text;
+using UnityEngine;
 
 namespace SimpleInventory
 {
@@ -20,8 +19,7 @@ namespace SimpleInventory
             //'amount' can be greater than an item's stack size limit. Ex. We have wood with maxStacks of 10 - We add 15 wood, so 
             //  the normal inventory gets one stack of ten plus one stack of five.
             float numStacksToAdd = (float) amount / (float) item.stackSize; //Looks stupid and unnecesary, but amount and stack size must be parsed to float
-            Debug.LogWarning("Stacks to add " + numStacksToAdd.ToString());
-            Debug.LogWarning("Stacks to add (int) " + ((int)numStacksToAdd).ToString());
+
             //Counting the number of each item - If 'num' is non one, non zero, add one (so it's not parsed to zero) - otherwise add the number.
             stackableInventory[item] += (int) numStacksToAdd;//numStacksToAdd < 1 && numStacksToAdd > 0 ? 1 : (int)numStacksToAdd;
 
@@ -80,6 +78,11 @@ namespace SimpleInventory
             AddStackableItem(logPile, 25);
 
             print (NumberOfStacks_TotalCount_AndPartialStackCountForItem(logPile));
+            //Will return 
+            //'Log Pile'
+            //'Number of Stacks: 3'
+            //'Total Item Count: 25'
+            //'Incomplete stack size: 0.5' //This is .5 of item.stackSize so 5 of that item
         }
     }
 }
