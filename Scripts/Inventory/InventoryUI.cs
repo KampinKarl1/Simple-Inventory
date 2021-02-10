@@ -23,6 +23,10 @@ namespace SimpleInventory.UI
             this.inventory.onInventoryChange += UpdateItemSlots;
         }
 
+
+        //There is an absolutely massive error with this if there aren't enough item slots created. 
+        //The slots are iterated over with the inventory dictionary on this script as opposed to using the inventory dictionary on the player
+        //Need to disable slots without items and not create the aforementioned dependency.
         protected override void UpdateSlotAt(int _index, Item item, int count)
         {
             if (count == 0)
