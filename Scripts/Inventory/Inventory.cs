@@ -11,10 +11,10 @@ namespace SimpleInventory
         [SerializeField, Header ("Inventory Attributes"), Tooltip("The maximum number of unique items in the inventory")]
         private int maxItemSlots = 32;
 
-        [Space]
-        [Header("Debugging for other designers")]
-        [SerializeField, Tooltip("Checks to see if the inventory has presented a fix dialogue to the user if they didn't enable pickups on drop")]
-        private SharedBool presentedPickupFix = null;
+       // [Space]
+       // [Header("Debugging for other designers")]
+       // [SerializeField, Tooltip("Checks to see if the inventory has presented a fix dialogue to the user if they didn't enable pickups on drop")]
+       // private SharedBool presentedPickupFix = null;
 
         [SerializeField] private bool createItemDropOnRemove = false;
         [SerializeField] private Pickup pickupPrefab = null;
@@ -100,15 +100,15 @@ namespace SimpleInventory
                     transform.rotation);
                 p.SetItem(item);
             }
-            else if (!createItemDropOnRemove && presentedPickupFix.Value == false) 
+            else if (!createItemDropOnRemove)// && presentedPickupFix.Value == false) 
             {
-                Debug.Break();
+              //  Debug.Break();
                 Debug.LogWarning("Did you mean to drop a physical item into the world when removing from Inventory? " +
                     "You don't have drops enabled on the Inventory component. Please tick the createItemDropOnRemove box on the inventory and " +
                     "make sure you have a pickupPrefab object on the Inventory. That prefab must have a Pickup component on it." +
                     "Press 'Play' to disable pause. This error will only show once.");
-                Debug.LogWarning("LOOK AT THE CONSOLE PLEASE.");
-                presentedPickupFix.SetValue(true);
+               // Debug.LogWarning("LOOK AT THE CONSOLE PLEASE.");
+              //  presentedPickupFix.SetValue(true);
             }
         }
     }
