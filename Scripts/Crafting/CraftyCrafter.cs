@@ -48,18 +48,24 @@ namespace SimpleInventory.Crafting
 
 
         //Called when there is a change to the inventory (Since that would possibly change the number of items we can craft)
+
+        //Making this into a class var so it doesn't cause mem fragmentation
+        //be careful to nullify every iteration in FindNumCraftable
+        Craftable craftable = null;
         void FindNumCraftableForAllRecipes()
         {
-            Craftable c;
+            //Craftable craftable;
 
             for (int i = 0; i < craftables.Count; ++i)
             {
-                c = craftables[i];
+                craftable = craftables[i];
 
-                if (!craftingInventory.ContainsKey(c))
-                    AddToCraftables(c);
+                if (!craftingInventory.ContainsKey(craftable))
+                    AddToCraftables(craftable);
 
-                craftingInventory[c] = NumberCraftable(c);
+                craftingInventory[craftable] = GetNumberCraftable(craftable);
+
+                craftable = null; //This doesn't have to be done, but it's probably safer so this method doesn't reference the last craftable from the last call
             }
 
             onCraftablesChange?.Invoke();
@@ -67,7 +73,7 @@ namespace SimpleInventory.Crafting
 
         //Will not find the number craftable for more complex items when the ingredients are not already in inventory
         //ex. A House will show 0 craftable unless Door, Roof, and Walls(4) are ALREADY in inventory, even if the base materials for the components ARE in inventory.
-        public int NumberCraftable(Craftable craftable)
+        public int GetNumberCraftable(Craftable craftable)
         {
             //Find the max number craftable given a desired item
 
@@ -91,19 +97,27 @@ namespace SimpleInventory.Crafting
 
             return lowest;
         }
+
+        //Alloc for crafted item - make sure to nullify it after crafting
+        Item craftedItem = null;
+
         public bool TryCraftItem(Craftable item)
         {
             if (!CanCraftItem(item))
             {
+                //Ideally you'd have some sort of affordance for the player to let them know that they can't craft the thing they just tried to make
                 Debug.LogWarning("Not enough materials to craft " + item.ItemName);
                 return false;
             }
 
-            Item craftedItem = CraftItem(item);
+            craftedItem = CraftItem(item); //This was previously a local var, not a class field.
 
             if (craftedItem != null) 
             {
-                inventory.AddToInventory(craftedItem);
+                inventory.TryAddToInventory(craftedItem);
+                //Nullify crafted item so it's not referenced it the next time this is called.
+                craftedItem = null;
+
                 return true;
             }
 
@@ -112,15 +126,9 @@ namespace SimpleInventory.Crafting
 
         private bool CanCraftItem(Craftable craftable)
         {
-            Item ingredient;
-            int numNeeded;
-
             for (int i = 0; i < craftable.NumberOfIngredients; ++i)
             {
-                ingredient = craftable.GetIngredientAt(i);
-                numNeeded = craftable.GetNumberNeededAt(i);
-
-                if (!inventory.HasNumberOfItem(ingredient, numNeeded))
+                if (!inventory.HasNumberOfItem(craftable.GetIngredientAt(i), craftable.GetNumberNeededAt(i)))
                     return false;
             }
 
