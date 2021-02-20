@@ -1,1 +1,0 @@
-small_rock.fbx is by Metadsign and you can get it free from turbosquid.com - I can't give access to the model.
