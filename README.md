@@ -3,6 +3,9 @@ Check out the tutorials for this project here: https://www.youtube.com/playlist?
 
 Use this simple inventory, crafting, mining, and pickup system for prototyping your game.
 
+--Update (Feb 24, 2021)--
+Added Item drops and fixed a huge import issue where Craftables pointed to null ingredients.
+
 ----------Assets and Project Settings------------
 
 I mixed up the folders on this repo and folders that should be in Assets are spread out in this repository with Project Settings mixed
