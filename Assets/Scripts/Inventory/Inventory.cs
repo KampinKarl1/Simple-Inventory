@@ -26,6 +26,29 @@ namespace SimpleInventory
         public delegate void OnInventoryChange();
         public OnInventoryChange onInventoryChange;
 
+        private void Start()
+        {
+            foreach (var itemAndCount in FindObjectOfType<InventorySaveSystem>().LoadInventory()) 
+            {
+                inventory.Add(itemAndCount.Key, itemAndCount.Value);
+            }
+            
+            onInventoryChange?.Invoke(); //Call the event so the UI and stuff gets updated
+
+            if (useStartingItems)
+            {
+                if (startingItems != null &&
+                    startingItems.Count > 0 &&
+                    !System.Array.Exists(startingItems.ToArray(), element => element == null))
+                {
+                    foreach (Item i in startingItems)
+                    {
+                        AddToInventory(i, 1);
+                    }
+                }
+            }
+        }
+
         public void AddToInventory(Item item, int count = 1) 
         {
             if (!inventory.ContainsKey(item))
