@@ -11,6 +11,7 @@ namespace SimpleInventory
         private int maxItemSlots = 32;
         
         [Header("Items you start with")]
+        [SerializeField] private bool loadSavedItems = true;
         [SerializeField] private bool useStartingItems = true;
         [SerializeField] private List<Item> startingItems = new List<Item>();
         [Tooltip("Set the amount of each item you want in order with the items above.")]
