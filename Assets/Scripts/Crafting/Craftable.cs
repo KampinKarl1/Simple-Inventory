@@ -20,11 +20,31 @@ namespace SimpleInventory.Crafting
             }
         }
 
-        [SerializeField] private CraftingIngredient[] ingredients = null;
+        [SerializeField] private CraftingIngredient[] ingredients = new CraftingIngredient[0];
 
         public int NumberOfIngredients => ingredients.Length;
-        public Item GetIngredientAt(int index) => ingredients[index].ingredient;
-        public int GetNumberNeededAt(int index) => ingredients[index].numberNeeded;
+        
+        public Item GetIngredientAt(int index)
+        {
+            if (index >= ingredients.Length)
+            {
+                Debug.LogError("There is no ingredient at that index. Craftable: " + name);
+                return null;
+            }
+
+            return ingredients[index].ingredient;
+        }
+        public int GetNumberNeededAt(int index)
+        {
+            if (index >= ingredients.Length)
+            {
+                Debug.LogError("There is no ingredient at that index. Craftable: " + name);
+                return -1;
+            }
+
+            return ingredients[index].numberNeeded; 
+        }
+
 
         public void AddIngredient(Item i, int number) 
         {
