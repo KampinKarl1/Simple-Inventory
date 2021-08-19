@@ -4,7 +4,7 @@ using UnityEngine.Events;
 namespace SimpleInventory
 {
     [CreateAssetMenu]
-    public class SellToShopAction : ItemAction
+    public class SellToShopAction : ActionOnClickItemUI
     {
         public override UnityAction Action(Item i, int n, object player)
         {
