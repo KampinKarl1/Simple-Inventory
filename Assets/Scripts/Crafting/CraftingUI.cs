@@ -11,8 +11,6 @@ namespace SimpleInventory.UI
     {
         [SerializeField] private CraftyCrafter crafter = null;
 
-        [SerializeField] private CraftableAction craftAction;
-
         private void Start()
         {
             if (crafter)
