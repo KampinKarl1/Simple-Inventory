@@ -9,7 +9,14 @@ namespace SimpleInventory
         private Dictionary<Item, int> inventory = new Dictionary<Item, int>();
 
         private int maxItemSlots = 32;
+        
+        [Header("Items you start with")]
+        [SerializeField] private bool useStartingItems = true;
+        [SerializeField] private List<Item> startingItems = new List<Item>();
+        [Tooltip("Set the amount of each item you want in order with the items above.")]
+        [SerializeField] private List<int> startingItemCount = new List<int>(); 
 
+        [Header("Pickups")]
         [SerializeField] private bool createItemDropOnRemove = false;
         [SerializeField] private Pickup pickupPrefab = null;
 
@@ -28,23 +35,33 @@ namespace SimpleInventory
 
         private void Start()
         {
-            foreach (var itemAndCount in FindObjectOfType<InventorySaveSystem>().LoadInventory()) 
+            if (loadSavedItems)
             {
-                inventory.Add(itemAndCount.Key, itemAndCount.Value);
-            }
-            
-            onInventoryChange?.Invoke(); //Call the event so the UI and stuff gets updated
+                InventorySaveSystem saveSystem = FindObjectOfType<InventorySaveSystem>();
 
-            if (useStartingItems)
-            {
-                if (startingItems != null &&
-                    startingItems.Count > 0 &&
-                    !System.Array.Exists(startingItems.ToArray(), element => element == null))
+                if (saveSystem)
                 {
-                    foreach (Item i in startingItems)
+                    //var is KeyValuePair<Item, int> but it reads a little better like this.
+                    foreach (var itemAndCount in saveSystem.LoadInventory())
                     {
-                        AddToInventory(i, 1);
+                        inventory.Add(itemAndCount.Key, itemAndCount.Value);
                     }
+                }
+            }
+
+            if (!useStartingItems)
+                return;
+
+            if (startingItems != null &&
+                startingItems.Count > 0 &&
+                !System.Array.Exists(startingItems.ToArray(), element => element == null))
+            {
+                for (int i = 0; i < startingItems.Count; i++)
+                {
+                    if (i < startingItemCount.Count) //there is a count at this index
+                        AddToInventory(startingItems[i], startingItemCount[i]);
+                    else
+                        AddToInventory(startingItems[i], 1);
                 }
             }
         }
