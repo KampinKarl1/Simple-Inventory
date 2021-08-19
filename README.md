@@ -18,9 +18,9 @@ else in the Assets folder.
 
 Item and Craftable (inherits from item) cannot be attached to anything as they are ScriptableObjects.
 
-Right click to create new items and craftables. 
+Right click in the project folder (in Unity Editor) to create new items and craftables (Create>Item or Create>Craftables>New Craftable). 
 
-Craftables have an array of crafting ingredients that tells the CraftyCrafter what items are needed and how many of each item are needed to make said craftable - There is nocheck to verify that a Craftable has at least one CraftingIngredient, so enjoy that error.
+Craftables have an array of crafting ingredients that tells the CraftyCrafter what items are needed and how many of each item are needed to make said craftable - Currently only null check is when trying to GetIngredient and GetNumberNeeded.
 
 ------------Pickups-------------
 
