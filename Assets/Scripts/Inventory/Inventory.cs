@@ -49,10 +49,8 @@ namespace SimpleInventory
                 }
             }
 
-            if (!useStartingItems)
-                return;
-
-            if (startingItems != null &&
+            if (useStartingItems &&
+                startingItems != null &&
                 startingItems.Count > 0 &&
                 !System.Array.Exists(startingItems.ToArray(), element => element == null))
             {
@@ -64,6 +62,8 @@ namespace SimpleInventory
                         AddToInventory(startingItems[i], 1);
                 }
             }
+
+            onInventoryChange?.Invoke();
         }
 
         public void AddToInventory(Item item, int count = 1) 
