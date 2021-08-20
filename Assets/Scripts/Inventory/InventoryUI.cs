@@ -9,7 +9,7 @@ namespace SimpleInventory.UI
     {
         [SerializeField] private Inventory inventory = null;
 
-        [SerializeField] private ItemAction itemAction;
+        [SerializeField] private ActionOnClickItemUI itemAction;
 
         private float timeBetweenClicks = .2f;
         bool canClick = true;
