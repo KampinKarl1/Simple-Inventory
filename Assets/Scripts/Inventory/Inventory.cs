@@ -64,6 +64,13 @@ namespace SimpleInventory
                 }
             }
 
+            StartCoroutine(DoLateInit());
+        }
+
+        IEnumerator DoLateInit() 
+        {
+            yield return new WaitForSeconds(.05f);
+
             onInventoryChange?.Invoke();
         }
 
