@@ -56,14 +56,30 @@ namespace SimpleInventory
                 }
             }
         }
-
-        internal Dictionary<Item, int> LoadInventory() 
+        
+        private bool InventorySaveExists() 
         {
             if (!File.Exists(FILE_PATH))
             {
                 Debug.LogWarning("The file you're trying to access doesn't exist. (Try saving an inventory first).");
-                return null;
+                return false;
             }
+            return true;
+        }
+        
+        //Delete all items in the inventory. Will be irreversable. Could just create a new file (ie. Change the name of the old save file and create a new one)
+        public void ClearInventorySaveFile() 
+        {
+            if (!InventorySaveExists())
+                return;
+                
+            File.WriteAllText(FILE_PATH, String.Empty);
+        }
+
+        internal Dictionary<Item, int> LoadInventory() 
+        {
+            if (!InventorySaveExists())
+                return;
 
             Dictionary<Item, int> inventory = new Dictionary<Item, int>();
 
