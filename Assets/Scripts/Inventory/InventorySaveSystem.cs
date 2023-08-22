@@ -73,15 +73,15 @@ namespace SimpleInventory
             if (!InventorySaveExists())
                 return;
                 
-            File.WriteAllText(FILE_PATH, String.Empty);
+            File.WriteAllText(FILE_PATH, "");//Was previously using String.Empty for the "" empty string but this does not require system namespace
         }
 
         internal Dictionary<Item, int> LoadInventory() 
         {
-            if (!InventorySaveExists())
-                return;
-
             Dictionary<Item, int> inventory = new Dictionary<Item, int>();
+
+            if (!InventorySaveExists())
+                return inventory; //Since no save exists, return an empty inventory.
 
             string line = "";
 
